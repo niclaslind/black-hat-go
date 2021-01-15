@@ -1,9 +1,10 @@
 package main
 
 import (
+	"fmt"
+	"github.com/niclaslind/black-hat-go/ch3/metasploit-minimal/rpc"
 	"log"
 	"os"
-	"github.com/niclaslind/black-hat-go/ch3/metasploit-minimal/rpc"
 )
 
 func main() {
@@ -13,6 +14,19 @@ func main() {
 
 	if host == "" || pass == "" {
 		log.Fatalln("Missing required enviroment variable MSFHOST of MSFPASS")
-		msf, err := rpc.New(host, user, pass)
+	}
+	msf, err := rpc.New(host, user, pass)
+	if err != nil {
+		log.Panicln(err)
+	}
+	defer msf.Logout()
+
+	sessions, err := msf.SessionList()
+	if err != nil {
+		log.Panicln(err)
+	}
+	fmt.Println("Sessions:")
+	for _, session := range sessions {
+		fmt.Printf("%5d %s\n", session.ID, session.Info)
 	}
 }

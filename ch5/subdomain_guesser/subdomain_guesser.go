@@ -71,7 +71,7 @@ func main() {
 
 	w := tabwriter.NewWriter(os.Stdout, 0, 8, ' ', ' ', 0)
 	for _, r := range results {
-		fmt.Fprint(w, "%s\"%s\n", r.Hostname, r.IPAddress)
+		fmt.Fprintf(w, "%s\t%s\n", r.Hostname, r.IPAddress)
 	}
 	w.Flush()
 }

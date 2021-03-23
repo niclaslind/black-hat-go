@@ -78,7 +78,7 @@ func New(host, user, pass string) (*Metasploit, error) {
 
 func (msf *Metasploit) send(req interface{}, res interface{}) error {
 	buf := new(bytes.Buffer)
-	msgpack.NewEncoder(buf).Encode(req)
+	_ = msgpack.NewEncoder(buf).Encode(req)
 	dest := fmt.Sprintf("http://%s/api", msf.host)
 	r, err := http.Post(dest, "binary/message-pack", buf)
 	if err != nil {
